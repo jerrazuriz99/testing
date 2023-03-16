@@ -87,6 +87,36 @@ class TestParser(unittest.TestCase):
         ast.accept(visitor)
         self.assertEqual(visitor.total(), 1)
 
+    #Tests para el ejercicio 3, Mas test usando los mismos operadores
+    def test_ppmm(self):
+        ast1 = PlusPlusNode(MinusMinusNode(NumberNode(2)))
+        ast2 = parser("(++ (-- 2))")
+        self.assertEqual(ast1,ast2)
+
+    def test_ppmm_eval(self):
+        ast = parser("(++ (-- 2))")
+        result = ast.eval()
+        self.assertEqual(result,2)
+
+    def test_mix2(self):
+        ast = parser("(+ (++ 1) (-- 1))")
+        result = ast.eval()
+        self.assertEqual(result,2)
+
+    def test_to_string4(self):
+        ast1 = PlusPlusNode(MinusMinusNode(NumberNode(2)))
+        self.assertEqual(ast1.to_string(),"(++ (-- 2))")
+    
+    def test_to_string5(self):
+        ast1 = AdditionNode(PlusPlusNode(NumberNode(1)),MinusMinusNode(NumberNode(2)))
+        self.assertEqual(ast1.to_string(),"(+ (++ 1) (-- 2))")
+
+    def test_unary_counter3(self):
+        visitor = UnaryOperatorCounter()
+        ast = parser("(+ (++ 1) (-- 1))")
+        ast.accept(visitor)
+        self.assertEqual(visitor.total(), 2)
+
 
 if __name__ == '__main__':
     unittest.main()
