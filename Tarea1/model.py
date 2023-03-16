@@ -40,6 +40,7 @@ class LiteralNode(Node):
         return self.__class__ == other.__class__ and self.value == other.value
 
 
+
 # Numero
 class NumberNode(LiteralNode):
 
@@ -104,6 +105,46 @@ class SubtractionNode(BinaryOperatorNode):
     def accept(self, visitor):
         visitor.visit_Subtract(self)
 
+# Operacion modulo
+class ModuloNode(BinaryOperatorNode):
+    def __init__(self, leftNode, rightNode):
+        super(ModuloNode, self).__init__(leftNode, rightNode, "%")
+    
+    def eval(self):
+        return self.leftNode.eval() % self.rightNode.eval()
+    
+    def accept(self, visitor):
+        visitor.visit_Modulo(self)
+
+# Operacion incremento
+class PlusPlusNode(OperatorNode):
+    def __init__(self, node):
+        super(PlusPlusNode, self).__init__("++")
+        self.node = node
+    
+    def eval(self):
+        return self.node.eval() + 1
+
+    def to_string(self):
+        return "(" + self.symbol + " " + self.node.to_string() + ")"
+
+    def accept(self, visitor):
+        visitor.visit_PlusPlus(self)
+
+# Operacion decremento
+class MinusMinusNode(OperatorNode):
+    def __init__(self, node):
+        super(MinusMinusNode, self).__init__("--")
+        self.node = node
+    
+    def eval(self):
+        return self.node.eval() - 1
+
+    def to_string(self):
+        return "(" + self.symbol + " " + self.node.to_string() + ")"
+
+    def accept(self, visitor):
+        visitor.visit_MinusMinus(self)
 
 # Visitor
 class Visitor:
@@ -115,6 +156,19 @@ class Visitor:
     def visit_Subtract(self, node):
         node.leftNode.accept(self)
         node.rightNode.accept(self)
+
+    def visit_Modulo(self, node):
+        node.leftNode.accept(self)
+        node.rightNode.accept(self)
+
+    def visit_PlusPlus(self, node):
+        node.node.accept(self)
+
+    def visit_MinusMinus(self, node):
+        node.node.accept(self)
+
+    def visit_unaryOperator(self, node):
+        pass
 
     def visit_Number(self, node):
         pass
