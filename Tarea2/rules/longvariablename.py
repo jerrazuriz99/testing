@@ -1,25 +1,25 @@
 # Codigo del estudiante
-from ast import *
-from rule import *
+from .rule import *
+import ast
 
 
 class LongVariableNameVisitor(WarningNodeVisitor):
 
     def __init__(self):
         super().__init__()
-        pass
+        self.variable_name = None
+        self.threshold = 15
 
-    def visit_ClassDef(self, node: ClassDef):
-        pass
-
-    def visit_FunctionDef(self, node: FunctionDef):
-        pass
+    def visit_Name(self, node):
+        self.variable_name = node.id
+        if len(self.variable_name) > self.threshold:
+            self.addWarning('VariableLongName', node.lineno, 'variable ' + self.variable_name + ' has a long name')
 
 
 class LongVariableNameRule(Rule):
         
     def analyze(self, ast):
-        visitor = NodeVisitor()
+        visitor = LongVariableNameVisitor()
         visitor.visit(ast)
         self.warningsList = visitor.warningsList()
         return self.warningsList

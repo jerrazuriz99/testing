@@ -13,6 +13,7 @@ class ManyArgumentsVisitor(WarningNodeVisitor):
 
     def visit_ClassDef(self, node: ClassDef):
         self.currentClass = node.name
+        """ print(node.bases, node.name, node.keywords, node.body[0].name, node.decorator_list) """
         NodeVisitor.generic_visit(self, node)
         self.currentClass = None
 

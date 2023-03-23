@@ -1,6 +1,6 @@
 # Codigo del estudiante
-from ast import *
-from rule import *
+from .rule import *
+import ast
 
 
 class SuperInitNotCalledVisitor(WarningNodeVisitor):
@@ -19,7 +19,7 @@ class SuperInitNotCalledVisitor(WarningNodeVisitor):
 class SuperInitNotCalledRule(Rule):
     
     def analyze(self, ast):
-        visitor = NodeVisitor()
+        visitor = SuperInitNotCalledVisitor()
         visitor.visit(ast)
         self.warningsList = visitor.warningsList()
         return self.warningsList
