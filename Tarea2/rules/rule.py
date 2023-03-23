@@ -42,7 +42,7 @@ class WarningNodeVisitor(NodeVisitor):
 
     def __init__(self):
         self.warnings = []
-    
+   
     def addWarning(self, name, lineo, description):
         self.warnings.append(Warning(name, lineo, description))
 
