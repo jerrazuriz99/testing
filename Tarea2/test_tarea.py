@@ -75,10 +75,10 @@ class TestWarnings(unittest.TestCase):
         Warning('UnusedArgument', 4, 'argument x is not used'),
         Warning('UnusedArgument', 15, 'argument vs is not used')]
 
-        print(len(result))
+        """ print(len(result))
 
         for i in range(len(result)):
-            print(f"Expected: {expectedWarnings[i].name} - Result: {result[i].name}")
+            print(f"Expected: {expectedWarnings[i].name} - Result: {result[i].name}") """
 
         self.assertEqual(result, expectedWarnings)
 
