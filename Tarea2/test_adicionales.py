@@ -41,7 +41,17 @@ class TestWarnings(unittest.TestCase):
 
 
         # Actualice el valor de expectedWarnings de acuerdo a su caso de prueba propuesto
-        expectedWarnings = []
+        expectedWarnings = [
+        Warning('VariableLongName', 6, 'variable longnameforahouse has a long name'),
+        Warning('VariableLongName', 7, 'variable longnameforaperson has a long name'),
+        Warning('VariableLongName', 11, 'variable longnameforahouse has a long name'),
+        Warning('VariableLongName', 11, 'variable longnameforahouse has a long name'),
+        Warning('VariableLongName', 12, 'variable longnameforaperson has a long name'),
+        Warning('VariableLongName', 12, 'variable longnameforaperson has a long name'),
+        ]
+
+        """ for i in range(len(result)):
+            print(f"Expected: {expectedWarnings[i].name} - Result: {result[i].name}") """
 
         self.assertEqual(result, expectedWarnings)
 
