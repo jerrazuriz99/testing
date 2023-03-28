@@ -3,3 +3,4 @@
 from .rewriter import *
 from .eval_rewriter import *
 from .if_true_rewriter import *
+from .test_minus_equal_rewriter import *
