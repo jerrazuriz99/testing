@@ -46,8 +46,8 @@ class TestWarnings(unittest.TestCase):
         Warning('VariableLongName', 4, 'variable mysuperlistfrom1to10 has a long name'),
         Warning('VariableLongName', 13, 'variable completeHomeAddress has a long name')]
 
-        for i in range(len(result)):
-            print(f"Expected: {expectedWarnings[i].name} - Result: {result[i].name}")
+        """ for i in range(len(result)):
+            print(f"Expected: {expectedWarnings[i].name} - Result: {result[i].name}") """
     
         self.assertEqual(result, expectedWarnings)
 

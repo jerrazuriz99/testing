@@ -10,7 +10,7 @@ class UnusedArgumentVisitor(WarningNodeVisitor):
         self.function_args = dict()
 
     def visit_FunctionDef(self, node: FunctionDef):
-         # Recopilar los nombres de los argumentos de la función
+        # Recopilar los nombres de los argumentos de la función
         for arg in node.args.args:
             self.function_args[arg.arg] = node.lineno
 
