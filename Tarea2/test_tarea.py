@@ -102,6 +102,9 @@ class TestWarnings(unittest.TestCase):
         expectedWarnings = [
         Warning('SuperInitNotCalled', 16, 'subclass Pineapple does not call to super().__init__()')]
 
+        """ for i in range(len(result)):
+            print(f"Expected: {expectedWarnings[i].name} - Result: {result[i].name}") """
+
         self.assertEqual(result, expectedWarnings)
 
 
