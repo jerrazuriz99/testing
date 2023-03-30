@@ -14,3 +14,4 @@ class Fruit:
 
 	def change_vitamins(self, vs):
 		self.vitamins = []
+
