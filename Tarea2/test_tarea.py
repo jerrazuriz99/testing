@@ -143,6 +143,8 @@ class TestWarnings(unittest.TestCase):
         tree = command.apply(tree)
 
         expectedCode = self.get_ast_from_file('expected-code/code-simplified-if.py')
+        """ print(dump(tree))
+        print(dump(expectedCode)) """
         
         self.assertEqual(dump(tree), dump(expectedCode))
 
