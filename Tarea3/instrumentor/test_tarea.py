@@ -8,6 +8,7 @@ se debe llamar classInstrumentor.py para importar los archivos necesarios para l
 Caso contrario importe lo necesario en este archivo.
 """
 
+
 class TestClassProfiler(unittest.TestCase):
 
     # Funcion que recibe un path del archivo a ser leido y retorna un AST en base al contenido del archivo
@@ -27,9 +28,9 @@ class TestClassProfiler(unittest.TestCase):
 
         newTree = instrument(tree)
 
-        f = open(name, "w")
-        f.write(unparse(newTree))
-        f.close()
+        # f = open(name, "w")
+        # f.write(unparse(newTree))
+        # f.close()
 
         return newTree
 
@@ -50,26 +51,27 @@ class TestClassProfiler(unittest.TestCase):
     """
 
     def test_methods_executed(self):
-        newTree = self.get_instrumentation('input_code/code_task.py', 'code_task.py')
+        newTree = self.get_instrumentation(
+            'input_code/code_task.py', 'code_task.py')
 
-        from code_task import Rectangle
+        # from code_task import Rectangle
+        # print newTree
 
         try:
-            exec(compile(newTree, filename="<ast>", mode ="exec"), locals(), locals())
+            exec(compile(newTree, filename="<ast>",
+                 mode="exec"), locals(), locals())
         except:
             print("An error ocurred! My injected code may cause problems")
 
         result = ClassProfiler.getInstance().report_executed_methods()
 
         expectedExecutedMethods = [
-        ('__init__', 3, 'Rectangle'),
-        ('get_area', 7, 'Rectangle'),
-        ('get_perimeter', 10, 'Rectangle'),
-        ('__eq__', 19, 'Rectangle')]
-
-
+            ('__init__', 3, 'Rectangle'),
+            ('get_area', 7, 'Rectangle'),
+            ('get_perimeter', 10, 'Rectangle'),
+            ('__eq__', 19, 'Rectangle')]
+        print(result)
         self.assertEqual(result, expectedExecutedMethods)
-
 
         """ Nombre: test_executed_by
         Codigo a ser analizado: input_code/code_task.py
@@ -96,52 +98,53 @@ class TestClassProfiler(unittest.TestCase):
 
     def test_executed_by(self):
 
-        newTree = self.get_instrumentation('input_code/code_task.py', 'code_task.py')
+        newTree = self.get_instrumentation(
+            'input_code/code_task.py', 'code_task.py')
 
-        from code_task import Rectangle
+        # from code_task import Rectangle
 
         try:
-            exec(compile(newTree, filename="<ast>", mode ="exec"), locals(), locals())
+            exec(compile(newTree, filename="<ast>",
+                 mode="exec"), locals(), locals())
         except:
             print("An error ocurred! My injected code may cause problems")
-
 
         result = ClassProfiler.getInstance().report_executed_by('test_area')
 
         expected = [('__init__', 3, 'Rectangle'), ('get_area', 7, 'Rectangle')]
-        
+
         self.assertEqual(result, expected)
 
         result = ClassProfiler.getInstance().report_executed_by('test_perimeter')
 
-        expected = [('__init__', 3, 'Rectangle'), ('get_perimeter', 10, 'Rectangle')]
-        
+        expected = [('__init__', 3, 'Rectangle'),
+                    ('get_perimeter', 10, 'Rectangle')]
+
         self.assertEqual(result, expected)
 
         result = ClassProfiler.getInstance().report_executed_by('test_compare1')
 
         expected = [('__init__', 3, 'Rectangle'), ('__eq__', 19, 'Rectangle')]
-        
+
         self.assertEqual(result, expected)
 
         result = ClassProfiler.getInstance().report_executed_by('test_compare2')
 
         expected = [('__init__', 3, 'Rectangle'), ('__eq__', 19, 'Rectangle')]
-        
+
         self.assertEqual(result, expected)
 
         result = ClassProfiler.getInstance().report_executed_by('test_compare2')
 
         expected = [('__init__', 3, 'Rectangle'), ('__eq__', 19, 'Rectangle')]
-        
+
         self.assertEqual(result, expected)
 
         result = ClassProfiler.getInstance().report_executed_by('test_compare_equal')
 
         expected = [('__init__', 3, 'Rectangle'), ('__eq__', 19, 'Rectangle')]
-        
-        self.assertEqual(result, expected)
 
+        self.assertEqual(result, expected)
 
     """ Nombre: test_methods_executed1
         Codigo a ser analizado: input_code/code_task1.py
@@ -159,25 +162,25 @@ class TestClassProfiler(unittest.TestCase):
     """
 
     def test_methods_executed1(self):
-        newTree = self.get_instrumentation('input_code/code_task1.py', 'code_task1.py')
+        newTree = self.get_instrumentation(
+            'input_code/code_task1.py', 'code_task1.py')
 
-        from code_task1 import Point
+        # from code_task1 import Point
 
         try:
-            exec(compile(newTree, filename="<ast>", mode ="exec"), locals(), locals())
+            exec(compile(newTree, filename="<ast>",
+                 mode="exec"), locals(), locals())
         except:
             print("An error ocurred! My injected code may cause problems")
 
         result = ClassProfiler.getInstance().report_executed_methods()
 
         expectedExecutedMethods = [
-        ('__init__', 5, 'Point'),
-        ('__eq__', 14, 'Point'),
-        ('__str__', 17, 'Point')]
-
+            ('__init__', 5, 'Point'),
+            ('__eq__', 14, 'Point'),
+            ('__str__', 17, 'Point')]
 
         self.assertEqual(result, expectedExecutedMethods)
-
 
         """ Nombre: test_executed_by1
         Codigo a ser analizado: input_code/code_task1.py
@@ -196,27 +199,29 @@ class TestClassProfiler(unittest.TestCase):
 
     def test_executed_by1(self):
 
-        newTree = self.get_instrumentation('input_code/code_task1.py', 'code_task1.py')
+        newTree = self.get_instrumentation(
+            'input_code/code_task1.py', 'code_task1.py')
 
-        from code_task1 import Point
+        # from code_task1 import Point
 
         try:
-            exec(compile(newTree, filename="<ast>", mode ="exec"), locals(), locals())
+            exec(compile(newTree, filename="<ast>",
+                 mode="exec"), locals(), locals())
         except:
             print("An error ocurred! My injected code may cause problems")
-
 
         result = ClassProfiler.getInstance().report_executed_by('test_str')
 
         expected = [('__init__', 5, 'Point'), ('__str__', 17, 'Point')]
-        
+
         self.assertEqual(result, expected)
 
         result = ClassProfiler.getInstance().report_executed_by('test_compare1')
 
-        expected =  [('__init__', 5, 'Point'), ('__eq__', 14, 'Point')]
-        
+        expected = [('__init__', 5, 'Point'), ('__eq__', 14, 'Point')]
+
         self.assertEqual(result, expected)
+
 
 if __name__ == '__main__':
     unittest.main()

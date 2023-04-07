@@ -24,24 +24,29 @@ def test_area():
     rectangle = Rectangle(2, 3)
     assert rectangle.get_area() == 6, 'Incorrect area'
 
+
 def test_perimeter():
     rectangle = Rectangle(5, 7)
     assert rectangle.get_perimeter() == 24, 'Incorrect perimeter'
+
 
 def test_compare1():
     rectangle1 = Rectangle(2, 3)
     rectangle2 = Rectangle(5, 7)
     assert rectangle1 != rectangle2, 'Different rectangles'
 
+
 def test_compare2():
     rectangle1 = Rectangle(2, 3)
     rectangle2 = Rectangle(5, 3)
     assert rectangle1 != rectangle2, 'Different rectangles'
 
+
 def test_compare3():
     rectangle1 = Rectangle(2, 5)
     rectangle2 = Rectangle(2, 7)
     assert rectangle1 != rectangle2, 'Different rectangles'
+
 
 def test_compare_equal():
     rectangle1 = Rectangle(2, 5)

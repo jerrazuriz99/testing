@@ -5,6 +5,7 @@ from functionInstrumentor import *
 Tests para el instrumentor profile creado en clases
 """
 
+
 class TestFunctionInstrumentor(unittest.TestCase):
 
     # Recibe un path del archivo a ser leido y retorna un AST en base al contenido del archivo
@@ -25,15 +26,15 @@ class TestFunctionInstrumentor(unittest.TestCase):
         newTree = instrument(tree)
 
         # Estas lineas son para escribir el nuevo AST en un archivo
-        #f = open(writeFile, "w")
-        #f.write(unparse(newTree))
-        #f.close()
+        # f = open(writeFile, "w")
+        # f.write(unparse(newTree))
+        # f.close()
 
         try:
-            exec(compile(newTree, filename="<ast>", mode ="exec"), locals(), locals())
+            exec(compile(newTree, filename="<ast>",
+                 mode="exec"), locals(), locals())
         except:
             print("An error ocurred! My injected code may cause problems")
-
 
     """ Nombre: test_executed_functions1
         Codigo a ser analizado: input_code/code1.py
@@ -56,11 +57,10 @@ class TestFunctionInstrumentor(unittest.TestCase):
         result = FunctionProfiler.getInstance().report_executed_functions()
 
         expected = [
-        ('test_sum', []),
-        ('sum', [2, 3]),
-        ('test_sum_tuple' , []),
-        ('sum', [3, 7])]
-
+            ('test_sum', []),
+            ('sum', [2, 3]),
+            ('test_sum_tuple', []),
+            ('sum', [3, 7])]
 
         self.assertEqual(result, expected)
 
@@ -85,11 +85,10 @@ class TestFunctionInstrumentor(unittest.TestCase):
         result = FunctionProfiler.getInstance().report_executed_functions()
 
         expected = [
-        ('factorial', [3]),
-        ('factorial', [1]),
-        ('abs', [2]),
-        ('abs', [4])]
-
+            ('factorial', [3]),
+            ('factorial', [1]),
+            ('abs', [2]),
+            ('abs', [4])]
 
         self.assertEqual(result, expected)
 
