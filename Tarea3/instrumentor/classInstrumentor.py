@@ -42,7 +42,6 @@ class ClassInstrumentor(NodeTransformer):
     def visit_FunctionDef(self, node: FunctionDef):
         self.function_name = node.name
         transformedNode = NodeTransformer.generic_visit(self, node)
-        fix_missing_locations(transformedNode)
         return transformedNode
 
     def visit_Assign(self, node: Assign):
@@ -134,7 +133,6 @@ class ClassProfiler(Profiler):
                         methods.append((fun, lineNumber2, className))
                 # eliminar elementos repetidos
         methods = list(dict.fromkeys(methods))
-
         return methods
 
 
