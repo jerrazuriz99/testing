@@ -52,15 +52,16 @@ class TestClassProfiler(unittest.TestCase):
 
     def test_methods_executed(self):
         newTree = self.get_instrumentation(
-            'input_code/code_task.py', 'code_task.py')
+            'input_code/code_task.py', 'code_task_executed.py')
 
-        from code_task import Rectangle
+        from code_task_executed import Rectangle
 
         try:
             exec(compile(newTree, filename="<ast>",
                  mode="exec"), locals(), locals())
         except:
             print("An error ocurred! My injected code may cause problems")
+
         result = ClassProfiler.getInstance().report_executed_methods()
 
         expectedExecutedMethods = [
@@ -68,7 +69,7 @@ class TestClassProfiler(unittest.TestCase):
             ('get_area', 7, 'Rectangle'),
             ('get_perimeter', 10, 'Rectangle'),
             ('__eq__', 19, 'Rectangle')]
-        print(result)
+
         self.assertEqual(result, expectedExecutedMethods)
 
         """ Nombre: test_executed_by
@@ -161,9 +162,9 @@ class TestClassProfiler(unittest.TestCase):
 
     def test_methods_executed1(self):
         newTree = self.get_instrumentation(
-            'input_code/code_task1.py', 'code_task1.py')
+            'input_code/code_task1.py', 'code_task1_executed.py')
 
-        from code_task1 import Point
+        from code_task1_executed import Point
 
         try:
             exec(compile(newTree, filename="<ast>",
