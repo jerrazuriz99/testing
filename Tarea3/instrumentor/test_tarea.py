@@ -28,9 +28,9 @@ class TestClassProfiler(unittest.TestCase):
 
         newTree = instrument(tree)
 
-        # f = open(name, "w")
-        # f.write(unparse(newTree))
-        # f.close()
+        f = open(name, "w")
+        f.write(unparse(newTree))
+        f.close()
 
         return newTree
 
@@ -54,15 +54,13 @@ class TestClassProfiler(unittest.TestCase):
         newTree = self.get_instrumentation(
             'input_code/code_task.py', 'code_task.py')
 
-        # from code_task import Rectangle
-        # print newTree
+        from code_task import Rectangle
 
         try:
             exec(compile(newTree, filename="<ast>",
                  mode="exec"), locals(), locals())
         except:
             print("An error ocurred! My injected code may cause problems")
-
         result = ClassProfiler.getInstance().report_executed_methods()
 
         expectedExecutedMethods = [
@@ -101,7 +99,7 @@ class TestClassProfiler(unittest.TestCase):
         newTree = self.get_instrumentation(
             'input_code/code_task.py', 'code_task.py')
 
-        # from code_task import Rectangle
+        from code_task import Rectangle
 
         try:
             exec(compile(newTree, filename="<ast>",
@@ -165,7 +163,7 @@ class TestClassProfiler(unittest.TestCase):
         newTree = self.get_instrumentation(
             'input_code/code_task1.py', 'code_task1.py')
 
-        # from code_task1 import Point
+        from code_task1 import Point
 
         try:
             exec(compile(newTree, filename="<ast>",
@@ -202,7 +200,7 @@ class TestClassProfiler(unittest.TestCase):
         newTree = self.get_instrumentation(
             'input_code/code_task1.py', 'code_task1.py')
 
-        # from code_task1 import Point
+        from code_task1 import Point
 
         try:
             exec(compile(newTree, filename="<ast>",
