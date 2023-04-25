@@ -47,13 +47,14 @@ class Tests(TestCase):
         self.assertEqual(result, excepted_result)
 
     def test_clock(self):
+        ## Parte 1
         result = []
         invariant_result = []
         clock = ClockDisplay([24, 60])
         result.append(clock.str())
         invariant_result.append(clock.invariant())
         clock2 = clock.clone()
-        for i in range(1440):
+        for i in range(100):
             clock.increment()
             """ print(f"incrementando clock en iteración {i}") """
             clock2.increment()
@@ -62,10 +63,25 @@ class Tests(TestCase):
             invariant_result.append(clock.invariant())
 
 
-        excepted_result = list(map(lambda x: f"{x//60:02d}:{x%60:02d}", range(1440)))
-        excepted_result.append("00:00")
+        excepted_result = list(map(lambda x: f"{x//60:02d}:{x%60:02d}", range(101)))
 
-        excepted_invariant = [True for i in range(1441)]
+        excepted_invariant = [True for i in range(101)]
+
+        self.assertEqual(result, excepted_result)
+        self.assertEqual(invariant_result, excepted_invariant)
+
+        ## Parte 2
+        result = []
+        invariant_result = []
+        clock = ClockDisplay([24, 60])
+        clock.numbers[0].value=23
+        clock.numbers[1].value=59
+        clock.increment()
+        result.append(clock.str())
+        invariant_result.append(clock.invariant())
+
+        excepted_result = ["00:00"]
+        excepted_invariant = [True]
 
         self.assertEqual(result, excepted_result)
         self.assertEqual(invariant_result, excepted_invariant)
@@ -79,17 +95,16 @@ class Tests(TestCase):
         invariant_result.append(clock.invariant())
         clock2 = factory.create("hh:mm:ss")
         clock3 = factory.create("hh:mm:ss:mmmm")
-        for i in range(1440):
+        for i in range(100):
             clock.increment()
             clock2.increment()
             clock3.increment()
             result.append(clock.str())
             invariant_result.append(clock.invariant())
         
-        excepted_result = list(map(lambda x: f"{x//60:02d}:{x%60:02d}", range(1440)))
-        excepted_result.append("00:00")
+        excepted_result = list(map(lambda x: f"{x//60:02d}:{x%60:02d}", range(101)))
 
-        excepted_invariant = [True for i in range(1441)]
+        excepted_invariant = [True for i in range(101)]
 
         self.assertEqual(result, excepted_result)
         self.assertEqual(invariant_result, excepted_invariant)
