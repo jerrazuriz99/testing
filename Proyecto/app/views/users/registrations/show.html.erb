@@ -1,0 +1,168 @@
+<h1 align='center' class = "title is-2 has-text-primary" >Cuenta</h1>
+<h1 align='center' class = "title is-4 has-text-black" >Aquí se encuentra la información y las reseñas recibidas del usuario</h1>
+
+<% if current_user.id == @user.id %>
+  <div align="center">
+  <%= link_to "Editar cuenta", users_edit_path(:id => current_user.id), :class => "button is-primary is-rounded is-outlined is-inverted is-right" %>
+  </div>
+<% end %>
+
+<br>
+
+<div class="row" align="center">
+    <div class="row_second">
+        <div class="column_head_turno">
+            <% if current_user.id == @user.id %>
+                <% if @tipo_lista.to_i == 1 %>
+                    <h3 class = "title is-4 has-text-white" >Información</h3>
+                    <h3 class = "title is-4" ><%= link_to "Reseñas", users_show_path(:id => @user.id, :tipo_lista => 2) %></h3>
+                    <h3 class = "title is-4" ><%= link_to "Reportes", users_show_path(:id => @user.id, :tipo_lista => 3) %></h3>
+                <% elsif @tipo_lista.to_i == 2 %>
+                    <h3 class = "title is-4" ><%= link_to "Información", users_show_path(:id => @user.id, :tipo_lista => 1) %></h3>
+                    <h3 class = "title is-4 has-text-white" >Reseñas</h3>
+                    <h3 class = "title is-4" ><%= link_to "Reportes", users_show_path(:id => @user.id, :tipo_lista => 3) %></h3>
+                <% elsif @tipo_lista.to_i == 3 %>
+                    <h3 class = "title is-4" ><%= link_to "Información", users_show_path(:id => @user.id, :tipo_lista => 1) %></h3>
+                    <h3 class = "title is-4" ><%= link_to "Reseñas", users_show_path(:id => @user.id, :tipo_lista => 2) %></h3>
+                    <h3 class = "title is-4 has-text-white" >Reportes</h3>
+                <% else %>
+                    <h3 class = "title is-4" ><%= link_to "Información", users_show_path(:id => @user.id, :tipo_lista => 1) %></h3>
+                    <h3 class = "title is-4" ><%= link_to "Reseñas", users_show_path(:id => @user.id, :tipo_lista => 2) %></h3>
+                    <h3 class = "title is-4" ><%= link_to "Reportes", users_show_path(:id => @user.id, :tipo_lista => 3) %></h3>
+                <% end %>
+            <% else %>
+                <% if @tipo_lista.to_i == 1 %>
+                    <h3 class = "title is-4 has-text-white" >Información</h3>
+                    <h3 class = "title is-4" ><%= link_to "Reseñas", users_show_path(:id => @user.id, :tipo_lista => 2) %></h3>
+                <% elsif @tipo_lista.to_i == 2 %>
+                    <h3 class = "title is-4" ><%= link_to "Información", users_show_path(:id => @user.id, :tipo_lista => 1) %></h3>
+                    <h3 class = "title is-4 has-text-white" >Reseñas</h3>
+                <% else %>
+                    <h3 class = "title is-4" ><%= link_to "Información", users_show_path(:id => @user.id, :tipo_lista => 1) %></h3>
+                    <h3 class = "title is-4" ><%= link_to "Reseñas", users_show_path(:id => @user.id, :tipo_lista => 2) %></h3>
+                <% end %>
+            <% end %>
+        </div>
+    </div>
+    <% if @tipo_lista.to_i == 1 %>
+        <br>
+    <div class="columns is-mobile is-centered">
+        <div class="column is-4 background-info">
+          <div>
+                <div class="profile_userimg">
+                  <%if current_user.image.attached?%>
+                    <img class="cover" alt="Imagen de perfil" src="<%=Rails.env.production? ? current_user.image.url : url_for(current_user.image)%>"/>
+                  <%else%>
+                    <%= image_tag("default_user_image.png", class: "cover")%>
+                  <%end%>
+                </div>
+
+            
+            <br>
+            <p>
+                <strong align='center' class = "title is-5 has-text-black">Nombre:</strong>
+                <%= @user.name %>
+            </p>
+            <br/>
+            <% if current_user.id == @user.id %>
+                <p>
+                    <strong align='center' class = "title is-5 has-text-black">Email:</strong>
+                    <%= @user.email %>
+                </p>
+                <br/>
+            <% end %>
+            <% if current_user.id == @user.id %>
+                <p>
+                    <strong align='center' class = "title is-5 has-text-black">Dirección:</strong>
+                    <%= @user.address %>
+                </p>
+                <br/>
+            <% end %>
+            <p>
+                <strong align='center' class = "title is-5 has-text-black">Género:</strong>
+                <%= @user.gender %>
+            </p>
+            <br/>
+            <p>
+                <strong align='center' class = "title is-5 has-text-black">Teléfono:</strong>
+                <%= @user.phone %>
+            </p>
+            <br/>
+            <p>
+                <strong align='center' class = "title is-5 has-text-black">Calificación:</strong>
+                <% if @existen_resenas %>
+                    <%= @promedio %>
+                <% else %>
+                    No ha sido calificado
+                <% end %>
+            </p>
+            <br/>
+            <p>
+                <strong align='center' class = "title is-5 has-text-black">Reglas auto:</strong>
+                <%= @user.reglas %>
+            </p>
+            <br/>
+            </div>
+        </div>
+    </div>
+    <% elsif @tipo_lista.to_i == 2 %>
+        <% if @existen_resenas %>
+            <div class="row">
+                <div class="row_second">
+                    <div class="row_inner_resena">
+                        <div class="tile">  
+                            <% @resenas_usuario.each do |resena|%>
+                                <% if resena.turno.user_id == @user.id%>
+                                    <div align='center' style="display: flex; flex-flow: wrap; ">
+                                        <div class="column-resena">
+                                            <%
+                                                @estrellas1 = resena.calificacion
+                                                @estrellas2 = 5 - @estrellas1
+                                                %>
+                                            <b>Nombre Pasajero</b><p><%= resena.user.name %></p>
+                                            <b>Calificación </b>
+                                            <p>
+                                                <% 1.step(@estrellas1, 1) do |num| %>
+                                                    <ion-icon name="star"></ion-icon>
+                                                <% end %>
+                                                <% 1.step(@estrellas2, 1) do |num| %>
+                                                    <ion-icon name="star-outline"></ion-icon>
+                                                <% end %>
+                                            </p>
+                                            <b></b><p><%= link_to 'Ver detalles', resenas_show_path(:id => resena.id) %></p>
+                                        </div>
+                                    </div>
+                                <% end %>
+                            <% end %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% end %>
+    <% elsif @tipo_lista.to_i == 3 %>
+        <% if current_user.id == @user.id %>
+            <% if @existen_reportes %>
+                <div class="row">
+                    <div class="row_second">
+                        <div class="row_inner_resena">
+                            <div class="tile">  
+                                <% @reportes_usuario.each do |report|%>
+                                    <% if report.user_id == @user.id%>
+                                        <div align='center' style="display: flex; flex-flow: wrap; ">
+                                            <div class="column-resena">
+                                                <b>Usuario reportado:</b><p><%= report.usuario %></p>
+                                                <b>Estado reporte: </b><p><%= report.estado %></p>
+                                                <b></b><p><%= link_to 'Ver detalles', reports_show_path(:id => report.id) %></p>
+                                            </div>
+                                        </div>
+                                    <% end %>
+                                <% end %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% end %>
+        <% end %>
+    <% end %>
+</div>
+

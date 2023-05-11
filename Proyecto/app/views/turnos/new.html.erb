@@ -1,0 +1,94 @@
+<h1 align='center' class = "title is-2 has-text-primary" >Crear Turno</h1>
+
+<div class="column is-4 is-offset-4">
+  <div  align='center'>
+    <%= form_for @turno, as: :turno do |form| %>
+        <% if @turno.errors.any? %>
+          <div class="contenedor-error">
+            Se produjeron los siguientes errores:
+            <% @turno.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+            <br/>
+          </div>
+        <% end %>
+        <% def options_for_status
+            [
+            ['Cantidad asientos',nil],
+            ['1','1'],
+            ['2','2'],
+            ['3','3'],
+            ['4','4']
+            ]
+          end %>
+          <div>
+            <%= form.select :cantidad_asientos, options_for_status, {}, prompt: 'Select One' %>
+          </div>
+        <br/>
+        <div class="field-group">
+            <h1 align='center' class = "title is-4 has-text-black" >Hora de salida</h1>
+            <div class="field is-inline-block-desktop">
+                <div class="select">
+                    <%= form.time_select :hora_salida, time_separator: '</div><div class="select">' %>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <% def options_for_status
+          [
+          ['Día de la semana',nil],
+          ['Lunes','Lunes'],
+          ['Martes','Martes'],
+          ['Miércoles','Miércoles'],
+          ['Jueves','Jueves'],
+          ['Viernes','Viernes'],
+          ['Sábado','Sábado'],
+          ['Domingo','Domingo']
+          ]
+        end %>
+        <div>
+          <%= form.select :dia_semana, options_for_status, {}, prompt: 'Día' %>
+        </div>
+        <% def options_for_status
+          [
+          ['Tipo',nil],
+          ['Ida','Ida'],
+          ['Vuelta','Vuelta']
+          ]
+        end %>
+        <div>
+          <%= form.select :tipo, options_for_status, {}, prompt: 'Select One' %>
+        </div>
+        <br/>
+        <div>
+            <%= form.text_field :direccion_salida, class: "input is-primary is-rounded is-outlined", placeholder:"Dirección de salida"%>
+        </div>
+        <br/>
+        <div>
+            <%= form.text_field :direccion_llegada, class: "input is-primary is-rounded is-outlined", placeholder:"Dirección de llegada"%>
+        </div>
+        <% def options_for_status
+          [
+          ['Espacio extra para objetos',nil],
+          ['Solo mochilas','Solo mochilas'],
+          ['Proyecto de tamaño mediano','Proyecto de tamaño mediano'],
+          ['Maqueta grande','Maqueta grande']
+          ]
+        end %>
+        <div>
+          <%= form.select :espacio, options_for_status, {}, prompt: 'Espacio' %>
+        </div>
+        <br/>
+        <div>
+            <%= form.submit 'Crear turno', class: "button is-primary is-inverted is-rounded is-outlined" %>
+        </div>
+        <br/>
+
+    <% end %>
+  </div>
+
+  <a align='center'>
+  <%= button_to "Volver", turnos_index_path,:id => "boton_volver", :class => "button is-primary is-inverted is-rounded is-outlined", method: :get%>
+  </a>
+</div>
+

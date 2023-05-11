@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DCCARPOOLING</title>
+    <link rel="icon" href="https://fontawesomeicons.com/images/svg/car-sport-outline.svg">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="bg-img">
+
+    <nav class="navbar is-black" role="navigation" aria-label="dropdown navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" style = "position:relative; left:20px; top:0.001px;" href="https://www.google.com/logos/2010/pacman10-i.html">
+          <ion-icon size="large" name="car-sport"></ion-icon>
+        </a>
+      </div>
+
+      <div style="border: 5px; width: 300px; padding: 10px; 
+        align-text: center; margin: 5px; text-align: center; color: #198BB9";>
+        <div class="title is-3 has-text-primary">DCCARPOOLING</div>
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <a class="button is-primary is-rounded is-outlined is-right" href='/ayuda'>
+              <h4 class="title is-4 has-text-primary"> Ayuda </h4>
+            </a>
+          </div>
+        </div>
+        <div class="navbar-item">
+          <% if current_user %>
+            <div class="buttons">
+              <a class="button is-primary is-rounded is-outlined is-right" href='/report/new'>
+                <h4 class="title is-4 has-text-primary"> Reportar </h4>
+              </a>
+            </div>
+          <% end %>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable is-black">
+          <div style="border: 5px; width: 150px; padding: 10px;";>
+            <h4 class="title is-3 has-text-primary"><%= link_to "Menu", menu_path %></h4>
+          </div>
+
+          <div class="navbar-dropdown is-center is-boxed">
+            <div class="dropdown-content">
+                <% 
+                  if current_user
+                    @usuario = current_user.id
+                  else 
+                    @usuario = 0
+                  end 
+                %>
+                <% if current_user %>
+                  <div align="center"  class="title is-5 has-text-black is-active"><%= link_to "Cuenta", users_show_path(:id => current_user.id, :tipo_lista => 0) %></div>
+                  <div align="center"  class="title is-5 has-text-black is-active"><%= link_to "Turnos Conductor", turnos_index_path(:tipo => 2, :tipo_lista => 0) %></div>
+                <% end %>
+                <div align="center"  class="title is-5 has-text-black is-active">
+                  <%= link_to(turnos_index_path(:tipo => 1, :tipo_lista => 0)) do %>
+                    Turnos 
+                    <br/>
+                    Pasajero  
+                  <% end %>
+                </div>
+                <% if current_user %>
+                  <div align="center"  class="title is-5 has-text-black is-active"><%= link_to "Solicitudes Recibidas", requests_index_path(:tipo => 1, :tipo_lista => 0) %></div>
+                  <div align="center"  class="title is-5 has-text-black is-active"><%= link_to "Solicitudes Enviadas", requests_index_path(:tipo => 2, :tipo_lista => 0) %></div>
+                  <div align="center"  class="title is-5 has-text-black is-active"><%= link_to "Chats turnos", mensajes_path(id_turno: 0) %></div>
+                <% end %>
+              <hr class="dropdown-divider">
+                <% if current_user %>
+                  <div align="center"  class="title is-5 has-text-black is-active has-text-center"><%= link_to destroy_user_session_path,  data: {turbo_method: :delete} do %>
+                    Cerrar sesion de
+                    <br/>
+                    <%= current_user.name %>
+                  <% end %>
+                <% else %>
+                  <div align="center"  class="title is-5 has-text-black is-active"><%= link_to "Iniciar Sesion", '/users/sign_in' %></div>
+                  <div align="center"  class="title is-5 has-text-black is-active"><%= link_to "Registrarse", '/users/sign_up' %></div>
+                <% end %>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </nav>
+    <br/>
+    
+    <%= yield %>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

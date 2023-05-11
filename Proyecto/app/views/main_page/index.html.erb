@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DCCARPOOLING</title>
+    <link rel="icon" href="https://fontawesomeicons.com/images/svg/car-sport-outline.svg">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="bg-img-2">
+
+    <nav class="navbar is-black" role="navigation" aria-label="dropdown navigation">
+      <div class="navbar-item has-dropdown is-hoverable is-black" style="width: 100%; padding: 10px; 
+          align-text: center; margin: 5px; text-align: center; justify-content: space-around";>
+        <div >
+          <div class="title is-3 has-text-primary">DCCARPOOLING</div>
+        </div>
+
+        <div class="navbar-dropdown is-center is-boxed">
+          <div class="dropdown-content">
+              <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+                <ion-icon size="large" name="car-sport"></ion-icon>
+              </a>
+              <% 
+                if current_user
+                  @usuario = current_user.id
+                else 
+                  @usuario = 0
+                end 
+              %>
+              <% if current_user %>
+                <div align="center"  class="title is-5 has-text-black is-active"><%= link_to "Cuenta", users_show_path(:id => @usuario, :tipo_lista => 0) %></div>
+                <div align="center"  class="title is-5 has-text-black is-active"><%= link_to "Turnos Conductor", turnos_index_path(:tipo => 2, :tipo_lista => 0) %></div>
+              <% end %>
+              <div align="center"  class="title is-5 has-text-black is-active"><%= link_to "Turnos Pasajero", turnos_index_path(:tipo => 1, :tipo_lista => 0)%></div>
+              <% if current_user %>
+                <div align="center"  class="title is-5 has-text-black is-active"><%= link_to "Solicitudes Recibidas", requests_index_path(:tipo => 1, :tipo_lista => 0) %></div>
+                <div align="center"  class="title is-5 has-text-black is-active"><%= link_to "Solicitudes Enviadas", requests_index_path(:tipo => 2, :tipo_lista => 0) %></div>
+                <div align="center"  class="title is-5 has-text-black is-active"><%= link_to "Chats turnos", mensajes_path(id_turno: 0) %></div>
+              <% end %>
+              <div align="center"  class="title is-5 has-text-black is-active"><%= link_to "Ayuda", ayuda_path %></div>
+              <% if current_user %>
+                <div align="center"  class="title is-5 has-text-black is-active"><%= link_to "Reportar", reports_path %></div>
+              <% end %>
+            <hr class="dropdown-divider">
+              <% if current_user %>
+                <div align="center"  class="title is-5 has-text-black is-active has-text-center"><%= link_to "Cerrar sesion", destroy_user_session_path,  data: { "turbo-method": :delete } %></div>
+              <% else %>
+                <div align="center"  class="title is-5 has-text-black is-active"><%= link_to "Iniciar Sesion", '/users/sign_in' %></div>
+                <div align="center"  class="title is-5 has-text-black is-active"><%= link_to "Registrarse", '/users/sign_up' %></div>
+              <% end %>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    
+    <br/>
+    <div style="height: 75%; display: flex; align-items: center; justify-content: center;";>
+      <div align="center"  class="title is-1 has-text-danger is-active">
+        Un espacio para buscar 
+        <br/>
+        como ir y volver de tu campus
+      </div>
+    </div>
+
+    <%= yield %>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

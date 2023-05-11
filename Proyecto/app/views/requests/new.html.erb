@@ -1,0 +1,26 @@
+<div align='center'>
+    <h1 class="title is-3 has-text-primary">Nueva Solicitud</h1>
+    <div class="column is-4 is-offset-4">
+        <%= form_for @request do |form| %>
+            <% if flash[:errors] && flash[:errors].any? %>
+            <div class="contenedor-error">
+                Se produjeron los siguientes errores:
+                <% flash[:errors].each do |message| %>
+                <li><%= message %></li>
+                <% end %>
+                <br/>
+            </div>
+            <% end %>
+
+            <%= form.hidden_field :turno_id, value: @turno_id %>
+            <%= form.text_field :descripcion, {class: "input is-primary is-rounded is-outlined", placeholder:"Agrega aquí la dirección de encuentro"}%>
+            <br/>
+            <br/>
+            <div>
+                <%= form.submit 'Enviar solicitud', {class: "button is-primary is-inverted is-rounded is-outlined"} %>
+            </div>
+            <br/>
+            <%= link_to 'Volver', turnos_show_path(:id => @turno_id), {class: "button is-primary is-inverted is-rounded is-outlined"} %>
+        <% end %>
+    </div>
+</div>

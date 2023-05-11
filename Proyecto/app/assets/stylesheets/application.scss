@@ -1,0 +1,315 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *= require_self
+ */
+
+@import "bulma";
+@import "chat.css";
+
+ 
+
+.bg-img 
+{
+  background-image: linear-gradient(rgba(246, 168, 120, 0.5), rgba(246, 168, 120, 0.5)), url(https://images7.alphacoders.com/617/617537.jpg);
+  background-position: center center;
+  background-repeat:  no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-color: rgba(238, 88, 88, 0.5);
+}
+
+.bg-img-2
+{
+  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(https://images7.alphacoders.com/617/617537.jpg);
+  background-position: center center;
+  background-repeat:  no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-color: rgba(0, 0, 0, 0.8);
+  height: 100%;
+  width: 100%;
+}
+
+#menu_list 
+{
+  height: 150px;
+  width: 150px;
+}
+
+#boton_turnos 
+{
+  margin: 10px;
+}
+
+#boton_sign_out 
+{
+  margin: 10px;
+}
+
+#boton_volver 
+{
+  background-color: transparent;
+  margin: 10px;
+}
+
+#ver_detalles 
+{
+  background-color: transparent;
+  margin: 10px;
+}
+
+html 
+{
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+  background-color: transparent;
+}
+
+.column 
+{
+  float: left;
+  width: 100%;
+  padding: 10px;
+}
+
+.column_head_turno
+{
+  position: relative;
+  width: 70%;
+  height: 60px;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: space-evenly;
+  padding: 15px 0px;
+  border-radius: 10px;
+}
+
+.column-turno 
+{
+  float: left;
+  width: 200px;
+  height: 355px;
+  overflow: hidden;
+  padding: 10px;
+  background-color: rgba(238, 88, 88, 0.5);
+  border: solid 1px; 
+  margin: 5px;
+  border-radius: 10px;
+}
+
+.column-request 
+{
+  float: left;
+  width: 300px;
+  height: 170px;
+  overflow: hidden;
+  padding: 10px;
+  background-color: rgba(238, 88, 88, 0.5);
+  border: solid 1px; 
+  margin: 5px;
+  border-radius: 10px;
+}
+
+.column-ayuda 
+{
+  float: left;
+  width: 100%;
+  height: unset;
+  overflow: hidden;
+  padding: 10px;
+  background-color: rgba(238, 88, 88, 0.5);
+  border: solid 1px; 
+  margin: 5px;
+  border-radius: 10px;
+}
+
+.contenedor-resena
+{
+  display: inline-block;
+  vertical-align: middle;  
+}
+
+.column-resena 
+{
+  float: left;
+  width: 200px;
+  height: 200px;
+  padding: 10px;
+  background-color: rgba(238, 88, 88, 0.5);
+  border: solid 1px; 
+  margin: 5px;
+  flex-grow: 10;
+  border-radius: 10px;
+}
+
+.column-cuenta 
+{
+  float: left;
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+}
+  
+.row
+{
+  position: relative;
+  overflow: scroll;
+  overflow-y: hidden;
+  width: 1066px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+}
+
+.row_second
+{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.row_inner
+{
+  transition: 450ms transform;
+  font-size: 0;
+  white-space: nowrap;
+  margin: 10px 0;
+  padding-bottom: 10px;
+  height: 370px;
+  width: 1066px;
+}
+
+.row_inner_resena
+{
+  transition: 450ms transform;
+  font-size: 0;
+  white-space: nowrap;
+  margin: 10px 0;
+  padding-bottom: 10px;
+  height: 300px;
+  width: 1066px;
+}
+
+.row_inner_request
+{
+  transition: 450ms transform;
+  font-size: 0;
+  white-space: nowrap;
+  margin: 10px 0;
+  padding-bottom: 10px;
+  height: 200px;
+  width: 1066px;
+}
+
+.tile
+{
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: 420px;
+  margin-right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 450ms all;
+  transform-origin: center left;
+}
+
+.tile_img
+{
+  width: 250px;
+  height: 140.625px;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+.row:after 
+{
+  content: "";
+  display: table;
+  clear: both;
+}
+
+h4 
+{
+  color: rgb(29, 33, 29);
+}
+
+h1,
+h2,
+h3,
+h4 
+{
+  text-align: center;
+}
+
+a 
+{
+  color: hsl(171, 100%, 41%);
+}
+
+.navbar-dropdown
+{
+  background-color: hsl(0, 0%, 4%);
+}
+.dropdown-content
+{
+  background-color: hsl(0, 0%, 4%);
+}
+.dropdown-divider
+{
+  background-color: hsl(0, 0%, 4%);
+}
+
+input
+{
+  text-align: center;
+}
+
+select
+{
+  width: 100%;
+  height: 33.33px;
+  margin-top: 20px;
+  border-color: hsl(171, 100%, 41%);
+  border-radius: 20px;
+  text-align: center;
+}
+
+.contenedor-error
+{
+  float: center;
+  width: unset;
+  height: auto;
+  padding: 10px;
+  background-color: rgba(238, 88, 88, 0.5);
+  border: solid 1px; 
+  margin: 5px;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+.background-info{
+  background: #fff9d8;
+  border-radius: 25px;
+}
+.text-center{
+  text-align: center;
+}

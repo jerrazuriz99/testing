@@ -1,0 +1,35 @@
+<div align='center'>
+    <h1 class="title is-2 has-text-primary">Reseña</h1>
+
+    <p>
+        <strong>Número Turno: </strong>
+        <%= @resena.turno.id %>
+    </p>
+    <p>
+        <strong>Nombre Pasajero: </strong>
+        <%= @resena.user.name %>
+    </p>
+    <p>
+        <strong>Nombre Conductor: </strong>
+        <%= @user_conductor.name %>
+    </p>
+    <p>
+        <strong>Contenido: </strong>
+        <%= @resena.contenido %>
+    </p>
+    <p>
+        <strong>Calificación: </strong>
+        <%= @resena.calificacion %>
+    </p>
+
+    <br/>
+    <%= link_to 'Ir a turno', turnos_show_path(:id => @resena.turno.id), class: "button is-primary is-inverted is-rounded is-outlined"%>
+    <% if @resena.user.id == current_user.id%>
+        <br/>
+        <br/>
+        <%= link_to 'Editar', resenas_edit_path(:id => @resena.id), class: "button is-primary is-inverted is-rounded is-outlined"%>
+        <br/>
+        <br/>
+        <%= link_to 'Eliminar', resenas_delete_path(:id => @resena.id), class: "button is-primary is-inverted is-rounded is-outlined", method: :delete%>
+    <% end %>
+</div>

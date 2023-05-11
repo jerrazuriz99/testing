@@ -1,0 +1,23 @@
+
+# NO MODIFICAR ESTE ARCHIVO ESPECIFICAMENTE LAS VARIABLES DE ENTORNO QUE SE USAN
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: <%= ENV['CYPRESS'] ? 'testing_db_test' : 'testing_db_development' %>
+  username: <%= ENV["DB_USER"] %>
+  password: <%= ENV["DB_PASSWORD"] %>
+
+test:
+  <<: *default
+  database: testing_db_test
+  username: <%= ENV["DB_USER"] %>
+  password: <%= ENV["DB_PASSWORD"] %>
+
+production:
+  <<: *default
+  url: <%= ENV["DATABASE_URL"] %>

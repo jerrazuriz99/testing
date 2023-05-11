@@ -1,0 +1,68 @@
+#  Son libres de modificar este archivo pero deben justificar cualquier cambio que le hagan
+#  con un comentario
+
+require: rubocop-rails
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - 'vendor/**/*'
+    - 'test/fixtures/**/*'
+    - 'db/**/*'
+    - 'bin/**/*'
+    - 'log/**/*'
+    - 'tmp/**/*'
+    - 'config/environments/*'
+    - 'node_modules/**/*'
+
+# Layout
+Layout/LineLength:
+  Max: 120
+
+Layout/IndentationWidth:
+  Width: 2
+
+Metrics/BlockLength:
+  Exclude:
+    - 'test/**/*'
+    - 'spec/**/*'
+    - 'cypress/**/*'
+    - 'config/**/*'
+
+Metrics/ClassLength:
+  Exclude:
+    - 'test/**/*'
+    - 'spec/**/*'
+    - 'cypress/**/*'
+
+Lint/SuppressedException:
+  Exclude:
+    - 'cypress/**/*'
+
+Style/Documentation:
+  Exclude:
+    - 'config/**/*'
+    - 'test/**/*'
+    - 'spec/**/*'
+
+### Se deshabilita la obligacion de incluir frozen_string_literal en los archivos
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+### Se deshabilita la obligacion de ubicar los mensajes en locales
+Rails/I18nLocaleTexts:
+  Enabled: false
+
+### Se relaja la complejidad ABCSize pero evitando que llegar a niveles peligrosos y
+  # se evita contar varias veces el uso de la misma variable
+Metrics/AbcSize:
+  CountRepeatedAttributes: false
+  Max: 25
+
+### Se releja un poco el largo maximo de los metodos
+Metrics/MethodLength:
+  Max: 20
+
+### Se relaja un poco la metrica de complejidad percibida
+Metrics/PerceivedComplexity:
+  Max: 10

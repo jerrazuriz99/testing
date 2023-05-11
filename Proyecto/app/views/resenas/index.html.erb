@@ -1,0 +1,10 @@
+<h1>Reseñas Totales</h1>
+
+<div style="display: flex; flex-flow: row wrap; ">
+    <% @resenas.each do |resena|%>
+        <div style="border: solid 1px; width: 200px; padding: 10px; align-text: center; margin: 5px;">
+        <%= resena %>
+        </div>
+</div>
+<% end %>
+

@@ -1,0 +1,111 @@
+<div class="columns is-mobile is-centered">
+  <div class="column is-two-fifths text-center">
+    <h1 class="title is-2 has-text-primary">Turno</h1>
+<div class="background-info">
+    <% 
+        if current_user
+            @usuario = current_user.id
+        else 
+            @usuario = 0
+        end 
+    %>
+
+    <p>
+        <strong>Número Turno: </strong>
+        <%= @turno.id %>
+    </p>
+    <p>
+        <strong>Nombre conductor: </strong>
+        <%  if @usuario != 0 %>
+            <%= link_to users_show_path(:id => @turno.user_id) do %>
+                <%= @driver_name%>
+            <% end %>
+        <% else %>
+            <%= @driver_name%>
+        <% end %>
+    </p>
+    <p>
+        <strong>Cantidad Asientos: </strong>
+        <%= @turno.cantidad_asientos %>
+    </p>
+    <p>
+        <strong>Hora Salida: </strong>
+        <%= @turno.hora_salida %>
+    </p>
+    <p>
+        <strong>Dirección Salida: </strong>
+        <%= @turno.direccion_salida %>
+    </p>
+    <p>
+        <strong>Dirección Llegada: </strong>
+        <%= @turno.direccion_llegada %>
+    </p>
+    <p>
+        <strong>Día Semana: </strong>
+        <%= @turno.dia_semana %>
+    </p>
+    <p>
+        <strong>Tipo: </strong>
+        <%= @turno.tipo %>
+    </p>
+    <p>
+        <strong>Espacio: </strong>
+        <%= @turno.espacio %>
+    </p>
+    <p>
+        <strong>Estado: </strong>
+        <%= @turno.estado %>
+    </p>
+</div>
+    <% if @turno.user_id == @usuario %>
+    <% if @turno.estado != 'COMPLETADO'%>     
+            <%= link_to 'Editar', turnos_edit_path(:id => @turno.id), :id => "boton_volver", class: "button is-primary is-inverted is-rounded is-outlined"%>
+            <%= button_to "Eliminar", turnos_delete_path(:id => @turno.id), :id => "boton_volver", :class => "button is-primary is-inverted is-rounded is-outlined", method: :delete%>
+        <% end %>
+        <h3 class = "title is-4" ><%= link_to "Volver", turnos_index_path(:tipo => 2, :tipo_lista => 2), :class => "button is-primary is-inverted is-rounded is-outlined" %></h3>
+    <% elsif @usuario != 0 %>
+        <% if @turno.estado == 'ACTIVO' and @condicion.to_s == "true"%> 
+            <%= link_to 'Solicitar', requests_path(:id_viaje => @turno.id),id: "boton_volver", class: "button is-primary is-inverted is-rounded is-outlined"%>
+        <% elsif @turno.estado == 'ACTIVO' and @condicion.to_s == "false" %>
+            <strong>Has enviado una solicitud a este turno</strong>
+        <% elsif @turno.estado == 'COMPLETADO'%>
+            <%= link_to 'Agregar reseña ', resenas_path(:id_viaje => @turno.id), class: "button is-primary is-inverted is-rounded is-outlined"%>
+        <% end %>
+        <h3 class = "title is-4" ><%= link_to "Volver", turnos_index_path(:tipo => 1, :tipo_lista => 1), :class => "button is-primary is-inverted is-rounded is-outlined" %></h3>
+    <% end %>
+
+    <% if @turno.estado == 'COMPLETADO'%>
+        <br/>
+        <h1 class="title is-2 has-text-primary">Reseñas viaje</h1>
+            <div class="row">
+                <div class="row_inner_resena">
+                    <div class="tile">  
+                        <% @resenas.each do |resena|%>
+                            <% if resena.turno_id == @turno.id%>
+                            <div align='center' style="display: flex; flex-flow: wrap; ">
+                                <div class="column-resena">
+                                    <%
+                                        @estrellas1 = resena.calificacion
+                                        @estrellas2 = 5 - @estrellas1
+                                        %>
+                                    <b>Nombre Pasajero</b><p><%= resena.user.name%></p>
+                                    <b>Calificación </b>
+                                    <p>
+                                        <% 1.step(@estrellas1, 1) do |_| %>
+                                            <ion-icon name="star"></ion-icon>
+                                        <% end %>
+                                        <% 1.step(@estrellas2, 1) do |_| %>
+                                            <ion-icon name="star-outline"></ion-icon>
+                                        <% end %>
+                                    </p>
+                                    <b></b><p><%= link_to 'Ver detalles', resenas_show_path(:id => resena.id) %></p>
+                                </div>
+                            </div>
+                            <% end %>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% end %>
+</div>

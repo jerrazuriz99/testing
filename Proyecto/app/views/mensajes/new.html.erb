@@ -1,0 +1,102 @@
+
+<div class="container">
+  <div class="leftSide">
+    <div class="head">
+      <div class="userimg">
+          <%if current_user.image.attached?%>
+            <img class="cover" alt="Imagen de perfil" src="<%=Rails.env.production? ? current_user.image.url : url_for(current_user.image)%>"/>
+          <%else%>
+            <%= image_tag("default_user_image.png", class: "cover")%>
+          <%end%>
+      </div>
+      <div>
+        <p class="title is-5">Chats de turnos</p>
+      </div>
+    </div>
+
+    <div class="chatlist">
+      <% if @existen_turnos %>
+        <% @turnos_usuario.each do |turno|%>
+          <% if turno.estado != 'COMPLETADO' %>
+            <%= link_to mensajes_path(id_turno: turno.id), action: 'get' do %>
+              <div class="block">
+                <div class="details">
+                  <div class="listhead">
+                      <h4>Turno <%= turno.id %></h4>
+                      <% if @mensajes_turnos[turno.id][:existen] %>
+                        <% @largo = (@mensajes_turnos[turno.id][:mensajes]).length - 1 %>
+                        <p class="time"><%= @mensajes_turnos[turno.id][:mensajes][@largo].created_at.localtime.strftime "%H:%M" %></p>
+                      <% end %>
+                  </div>
+                  <% if @mensajes_turnos[turno.id][:existen] %>
+                    <% if @mensajes_turnos[turno.id][:mensajes][@largo].user_id == current_user.id %>
+                      <div class="message_p">
+                          <p>Tú: <%= @mensajes_turnos[turno.id][:mensajes][@largo].contenido %></p>
+                      </div>
+                    <% else %>
+                      <div class="message_p">
+                          <p><%= @mensajes_turnos[turno.id][:mensajes][@largo].user.name %>: <%= @mensajes_turnos[turno.id][:mensajes][@largo].contenido %></p>
+                      </div>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>   
+  </div>
+  <div class="rightSide">
+    <% if @turno_chat != "0" %>
+      <div class="head">
+        <div class="imgText">
+          <%= link_to turnos_show_path(:id => @turno_chat) do %>
+              <h4>Chat turno <%= @turno_chat %></h4>
+          <% end %>
+        </div>
+      </div>
+      <div class="chatBox">
+        <% if @mensajes_turnos[@turno_chat.to_i][:existen] %>
+          <% (@mensajes_turnos[@turno_chat.to_i][:mensajes]).each do |mensaje|%>
+            <% if mensaje.user_id == current_user.id %>
+              <div class="my_message">
+                <p><%= mensaje.contenido %><span><%= mensaje.created_at.localtime.strftime "%H:%M" %></span></p>
+              </div>
+            <% else %>
+              <div class="frnd_message">
+                <p><strong class = "title is-6 has-text-black"><%= mensaje.user.name %></strong><br><%= mensaje.contenido %><span><%= mensaje.created_at.localtime.strftime "%H:%M" %></span></p>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+      <%= form_with(model: @mensaje, method: :post) do |form| %>
+        
+        <%= form.hidden_field :turno_id, value: @turno_chat%>
+        
+        <%= form.hidden_field :user_id, value: current_user.id%>
+
+        <div class="chatbox_input">
+          <%= form.text_field :contenido, placeholder:"Ingrese un mensaje"%>
+
+          <%= button_tag(type: 'submit') do %>
+            <ion-icon size="large" name="send-outline"></ion-icon>
+          <% end %>
+        </div>
+
+      <% end %>
+    <% else %>
+      <div class="head">
+        <div class="imgText">
+            <h4>Ningun chat abierto</h4>
+        </div>
+      </div>
+      <div class="chatBox">
+      </div>
+      <div class="chatbox_input">
+        <input type="text" placeholder="Abre un chat para enviar mensajes">
+      </div>
+    <% end %>
+  </div>
+</div>

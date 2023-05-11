@@ -1,0 +1,46 @@
+<h1 align='center' class = "title is-2 has-text-primary" >Nueva reseña</h1>
+
+<div class="column is-4 is-offset-4">
+  <div  align='center'>
+    <%= form_for @resena do |form| %>
+        <% if @resena.errors.any? %>
+          <div class="contenedor-error">
+            Se produjeron los siguientes errores:
+            <% @resena.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+            <br/>
+          </div>
+        <% end %>
+        <%= form.hidden_field :turno_id, value: @id_viaje%>
+        <%= form.hidden_field :user_id, value: current_user.id%>
+
+        <div>
+            <%= form.text_field :contenido, class: "input is-primary is-rounded is-outlined", placeholder:"Comentarios"%>
+        </div>
+        <% def options_for_status
+          [
+          ['Calificación',nil],
+          ['0',0],
+          ['1',1],
+          ['2',2],
+          ['3',3],
+          ['4',4],
+          ['5',5]
+          ]
+        end %>
+        <div>
+          <%= form.select :calificacion, options_for_status, {}, prompt: 'Select One' %>
+        </div>
+        <br/>
+        <div>
+            <%= form.submit 'Subir reseña', class: "button is-primary is-inverted is-rounded is-outlined" %>
+        </div>
+        <br/>
+        <div>
+          <%= link_to 'Volver', turnos_show_path(:id => @id_viaje), class: "button is-primary is-inverted is-rounded is-outlined" %>
+        </div>
+    <% end %>
+  </div>
+</div>
+

@@ -1,0 +1,44 @@
+<div align='center'> 
+    <h1 align='center' class = "title is-2 has-text-primary" >Editar solicitud</h1>
+
+    <%= form_for(@request, as: :request, url: requests_update_path(:id => @request.id)) do |form| %>
+        <div class="column is-4 is-offset-4">
+            <% if flash[:errors] && flash[:errors].any? %>
+                <div class="contenedor-error">
+                    Se produjeron los siguientes errores:
+                    <% flash[:errors].each do |message| %>
+                    <li><%= message %></li>
+                    <% end %>
+                    <br/>
+                </div>
+            <% end %>
+
+            <%if @request.user_id == current_user.id%>
+                <div>
+                    <h1 align='center' class = "title is-6 has-text-black" >Descripcion</h1>
+                    <%= form.text_field :descripcion, class: "input is-primary is-rounded is-outlined", placeholder:"Descripción"%>
+                </div>
+            <% end %>
+            <%if @request.turno.user_id == current_user.id%>
+             
+                <% def options_for_status
+                    [
+                    ['Aceptar Solicitud','ACEPTADO'],
+                    ['Rechazar Solicitud','RECHAZADO'],
+                    ['Mantener Pendiente','PENDIENTE']
+                    ]
+                end %>
+                <div>
+                    <label class="label">Respuesta Solicitud</label>
+                    <%= form.select :estado, options_for_status, {}, prompt: 'Select One' %>
+                </div>
+                
+            <% end %>
+            <br/>
+            <div>
+                <%= form.submit 'Editar', class: "button is-primary is-inverted is-rounded is-outlined" %>
+            </div>
+        </div>
+
+    <% end %>
+</div>

@@ -1,0 +1,380 @@
+<% if @tipo_index.to_i == 1 %>
+
+    <h1 align='center' class = "title is-2 has-text-primary" >Turnos</h1>
+    <h1 align='center' class = "title is-4 has-text-black" >Aquí se encuentra toda la información de los turnos donde puedes solicitar como pasajero</h1>
+
+    <br>
+
+    <% 
+        if current_user
+            @usuario = current_user.id
+        else 
+            @usuario = 0
+        end 
+    %>
+    <% if @usuario != 0 %>
+        <div class="row">
+            <div class="row_second">
+                <div class="column_head_turno">
+                    <% if @tipo_lista.to_i == 1 %>
+                        <h3 class = "title is-4" ><%= link_to "Confirmados", turnos_index_path(:tipo => 1, :tipo_lista => 2) %></h3>
+                        <h3 class = "title is-4 has-text-white" >Activos</h3>
+                        <h3 class = "title is-4" ><%= link_to "Completados", turnos_index_path(:tipo => 1, :tipo_lista => 3) %></h3>
+                    <% elsif @tipo_lista.to_i == 2 %>
+                        <h3 class = "title is-4 has-text-white" >Confirmados</h3>
+                        <h3 class = "title is-4" ><%= link_to "Activos", turnos_index_path(:tipo => 1, :tipo_lista => 1, :filtro => 0) %></h3>
+                        <h3 class = "title is-4" ><%= link_to "Completados", turnos_index_path(:tipo => 1, :tipo_lista => 3) %></h3>
+                    <% elsif @tipo_lista.to_i == 3 %>
+                        <h3 class = "title is-4" ><%= link_to "Confirmados", turnos_index_path(:tipo => 1, :tipo_lista => 2) %></h3>
+                        <h3 class = "title is-4" ><%= link_to "Activos", turnos_index_path(:tipo => 1, :tipo_lista => 1, :filtro => 0) %></h3>
+                        <h3 class = "title is-4 has-text-white" >Completados</h3>
+                    <% else %>
+                        <h3 class = "title is-4" ><%= link_to "Confirmados", turnos_index_path(:tipo => 1, :tipo_lista => 2) %></h3>
+                        <h3 class = "title is-4" ><%= link_to "Activos", turnos_index_path(:tipo => 1, :tipo_lista => 1, :filtro => 0) %></h3>
+                        <h3 class = "title is-4" ><%= link_to "Completados", turnos_index_path(:tipo => 1, :tipo_lista => 3) %></h3>
+                    <% end %>
+                </div>
+            </div>
+            <% if @tipo_lista.to_i == 1 %>
+                <br/>
+                <div class="row_second">
+                    <div class="column_head_turno">
+                        <% if @filtrar.to_i == 1 %>
+                            <h3 class = "title is-4 has-text-white" ><%= link_to "Filtrar", turnos_index_path(:tipo => 1, :tipo_lista => 1, :filtro => 0), class: "has-text-white" %></h3>
+                        <% else %>
+                            <h3 class = "title is-4 has-text-dark" ><%= link_to "Filtrar", turnos_index_path(:tipo => 1, :tipo_lista => 1, :filtro => 1) %></h3>
+                        <% end %>
+                    </div>
+                </div>
+                <% if @filtrar.to_i == 1 %>
+                    <br/>
+                    <div class="column is-4 is-offset-4" align="center">
+                        <%= form_for(@turno, as: :turno, url:turnos_index_path, :html => { :method => 'GET' }) do |form| %>
+                            <%= form.hidden_field :tipo, value: 1 %>
+                            <%= form.hidden_field :tipo_lista, value: 1 %>
+                            <div>
+                                <%= form.text_field :direccion_salida, class: "input is-primary is-rounded is-outlined", placeholder:"Dirección salida"%>
+                            </div>
+                            <br/>
+                            <div>
+                                <%= form.text_field :direccion_llegada, class: "input is-primary is-rounded is-outlined", placeholder:"Dirección llegada"%>
+                            </div>
+                            <% def options_for_status
+                                [
+                                ['Día de la semana',nil],
+                                ['Lunes','Lunes'],
+                                ['Martes','Martes'],
+                                ['Miércoles','Miércoles'],
+                                ['Jueves','Jueves'],
+                                ['Viernes','Viernes'],
+                                ['Sábado','Sábado'],
+                                ['Domingo','Domingo']
+                                ]
+                            end %>
+                            <div>
+                                <%= form.select :dia_semana, options_for_status, {}, prompt: 'Día', 
+                                value: params[:dia_semana] %>
+                            </div>
+                            <br/>
+                            <div class="column">
+                                <b>¿Entre qué horas quieres salir?</b>
+                            </div>
+                            <div class="column">
+                                <b>Hora mínima</b>
+                            </div>
+                            <div class="select">
+                                <%= form.time_select :hora_salida_min, default: {hour: 0, min: 1}, time_separator: '</div><div class="select">' %>
+                            </div>
+                            <br/>
+                            <br/>
+                            <div class="column">
+                                <b>Hora máxima</b>
+                            </div>
+                            <div class="select">
+                                <%= form.time_select :hora_salida_max, default: {hour: 23, min: 59}, time_separator: '</div><div class="select">' %>
+                            </div>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <div>
+                                <%= form.submit 'Filtrar', class: "button is-primary is-rounded is-outlined is-inverted is-right" %>
+                            </div>
+                        <% end %>
+                    </div>
+                <% end %>
+                <div class="row">
+                    <div class="row_second">
+                        <div class="row_inner">
+                            <div class="tile">
+                                <% @turnos.each do |turno|%>
+                                    <%if turno.user_id != @usuario and turno.estado == "ACTIVO"%>
+                                        <div align='center' style="display: flex; flex-flow: wrap; ">
+                                            <div class="column-turno">
+                                                <b>Conductor </b><p><%= turno.user.name%></p>
+                                                <b>Hora salida </b><p><%= turno.hora_salida%></p>
+                                                <b>Día de la semana </b><p><%= turno.dia_semana%></p>
+                                                <b>Dirección salida </b><p><%= turno.direccion_salida%></p>
+                                                <b>Dirección llegada </b><p><%= turno.direccion_llegada%></p>
+                                                <b></b><p><%= link_to 'Ver detalles', turnos_show_path(:id => turno.id) %></p>
+                                            </div>
+                                        </div>
+                                    <% end %>
+                                <% end %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            <% elsif @tipo_lista.to_i == 2 %>
+                <div class="row">
+                    <div class="row_second">
+                        <div class="row_inner">
+                            <div class="tile">
+                                <% @requests.each do |request|%>
+                                    <%if request.user_id == @usuario %> 
+                                        <%if request.turno.estado == "CONFIRMADO"%>
+                                            <div align='center' style="display: flex; flex-flow: wrap; ">
+                                                <div class="column-turno">
+                                                    <b>Conductor </b><p><%= request.turno.user.name%></p>
+                                                    <b>Hora salida </b><p><%= request.turno.hora_salida%></p>
+                                                    <b>Día de la semana </b><p><%= request.turno.dia_semana%></p>
+                                                    <b>Dirección salida </b><p><%= request.turno.direccion_salida%></p>
+                                                    <b>Dirección llegada </b><p><%= request.turno.direccion_llegada%></p>
+                                                    <b></b><p><%= link_to 'Ver detalles', turnos_show_path(:id => request.turno.id) %></p>
+                                                </div>
+                                            </div>
+                                        <% end %>
+                                    <% end %>
+                                <% end %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <% elsif @tipo_lista.to_i == 3 %>
+                <div class="row">
+                    <div class="row_second">
+                        <div class="row_inner">
+                            <div class="tile">
+                                <% @requests.each do |request|%>
+                                    <%if request.user_id == @usuario%>
+                                        <%if request.turno.estado == "COMPLETADO"%>
+                                            <div align='center' style="display: flex; flex-flow: wrap; ">
+                                                <div class="column-turno">
+                                                    <b>Conductor </b><p><%= request.turno.user.name%></p>
+                                                    <b>Hora salida </b><p><%= request.turno.hora_salida%></p>
+                                                    <b>Día de la semana </b><p><%= request.turno.dia_semana%></p>
+                                                    <b>Dirección salida </b><p><%= request.turno.direccion_salida%></p>
+                                                    <b>Dirección llegada </b><p><%= request.turno.direccion_llegada%></p>
+                                                    <b></b><p><%= link_to 'Ver detalles', turnos_show_path(:id => request.turno.id) %></p>
+                                                </div>
+                                            </div>
+                                        <% end %>
+                                    <% end %>
+                                <% end %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+    <% else %>
+        <br/>
+        <div class="row_second">
+            <div class="column_head_turno">
+                <% if @filtrar.to_i == 1 %>
+                    <h3 class = "title is-4 has-text-white" ><%= link_to "Filtrar", turnos_index_path(:tipo => 1, :tipo_lista => 1, :filtro => 0), class: "has-text-white" %></h3>
+                <% else %>
+                    <h3 class = "title is-4 has-text-dark" ><%= link_to "Filtrar", turnos_index_path(:tipo => 1, :tipo_lista => 1, :filtro => 1) %></h3>
+                <% end %>
+            </div>
+        </div>
+        <% if @filtrar.to_i == 1 %>
+            <br/>
+            <div class="column is-4 is-offset-4" align="center">
+                <%= form_for(@turno, as: :turno, url:turnos_index_path, :html => { :method => 'GET' }) do |form| %>
+                    <%= form.hidden_field :tipo, value: 1 %>
+                    <%= form.hidden_field :tipo_lista, value: 1 %>
+                    <div>
+                        <%= form.text_field :direccion_salida, class: "input is-primary is-rounded is-outlined", placeholder:"Dirección salida"%>
+                    </div>
+                    <br/>
+                    <div>
+                        <%= form.text_field :direccion_llegada, class: "input is-primary is-rounded is-outlined", placeholder:"Dirección llegada"%>
+                    </div>
+                    <% def options_for_status
+                        [
+                        ['Día de la semana',nil],
+                        ['Lunes','Lunes'],
+                        ['Martes','Martes'],
+                        ['Miércoles','Miércoles'],
+                        ['Jueves','Jueves'],
+                        ['Viernes','Viernes'],
+                        ['Sábado','Sábado'],
+                        ['Domingo','Domingo']
+                        ]
+                    end %>
+                    <div>
+                        <%= form.select :dia_semana, options_for_status, {}, prompt: 'Día', 
+                        value: params[:dia_semana] %>
+                    </div>
+                    <br/>
+                    <div class="column">
+                        <b>¿Entre qué horas quieres salir?</b>
+                    </div>
+                    <div class="column">
+                        <b>Hora mínima</b>
+                    </div>
+                    <div class="select">
+                        <%= form.time_select :hora_salida_min, default: {hour: 0, min: 1}, time_separator: '</div><div class="select">' %>
+                    </div>
+                    <br/>
+                    <br/>
+                    <div class="column">
+                        <b>Hora máxima</b>
+                    </div>
+                    <div class="select">
+                        <%= form.time_select :hora_salida_max, default: {hour: 23, min: 59}, time_separator: '</div><div class="select">' %>
+                    </div>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <div>
+                        <%= form.submit 'Filtrar', class: "button is-primary is-rounded is-outlined is-inverted is-right" %>
+                    </div>
+                <% end %>
+            </div>
+        <% end %>
+        <div class="row">
+            <div class="row_second">
+                <div class="row_inner">
+                    <div class="tile">
+                        <% @turnos.each do |turno|%>
+                            <%if turno.user_id != @usuario and turno.estado == "ACTIVO"%>
+                                <div align='center' style="display: flex; flex-flow: wrap; ">
+                                    <div class="column-turno">
+                                        <b>Conductor </b><p><%= turno.user.name%></p>
+                                        <b>Hora salida </b><p><%= turno.hora_salida%></p>
+                                        <b>Día de la semana </b><p><%= turno.dia_semana%></p>
+                                        <b>Dirección salida </b><p><%= turno.direccion_salida%></p>
+                                        <b>Dirección llegada </b><p><%= turno.direccion_llegada%></p>
+                                        <b></b><p><%= link_to 'Ver detalles', turnos_show_path(:id => turno.id) %></p>
+                                    </div>
+                                </div>
+                            <% end %>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% end %>
+    
+<% else %>
+
+    <h1 align='center' class = "title is-2 has-text-primary" >Turnos</h1>
+    <h1 align='center' class = "title is-4 has-text-black" >Aquí se encuentra toda la información de tus turnos </h1>
+
+    <div align='center'>    
+        <a>
+            <%= button_to "Nuevo turno", turnos_path,:id => "boton_turnos", :class => "button is-primary is-rounded is-inverted is-outlined is-right", :method => :get %>
+        </a>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="row_second">
+            <div class="column_head_turno">
+                <% if @tipo_lista.to_i == 1 %>
+                    <h3 class = "title is-4 has-text-white" >Confirmados</h3>
+                    <h3 class = "title is-4" ><%= link_to "Activos", turnos_index_path(:tipo => 2, :tipo_lista => 2) %></h3>
+                    <h3 class = "title is-4" ><%= link_to "Completados", turnos_index_path(:tipo => 2, :tipo_lista => 3) %></h3>
+                <% elsif @tipo_lista.to_i == 2 %>  
+                    <h3 class = "title is-4" ><%= link_to "Confirmados", turnos_index_path(:tipo => 2, :tipo_lista => 1) %></h3>
+                    <h3 class = "title is-4 has-text-white" >Activos</h3>
+                    <h3 class = "title is-4" ><%= link_to "Completados", turnos_index_path(:tipo => 2, :tipo_lista => 3) %></h3>
+                <% elsif @tipo_lista.to_i == 3 %>
+                    <h3 class = "title is-4" ><%= link_to "Confirmados", turnos_index_path(:tipo => 2, :tipo_lista => 1) %></h3>
+                    <h3 class = "title is-4" ><%= link_to "Activos", turnos_index_path(:tipo => 2, :tipo_lista => 2) %></h3>
+                    <h3 class = "title is-4 has-text-white" >Completados</h3>
+                <% else %>
+                    <h3 class = "title is-4" ><%= link_to "Confirmados", turnos_index_path(:tipo => 2, :tipo_lista => 1) %></h3>
+                    <h3 class = "title is-4" ><%= link_to "Activos", turnos_index_path(:tipo => 2, :tipo_lista => 2) %></h3>
+                    <h3 class = "title is-4" ><%= link_to "Completados", turnos_index_path(:tipo => 2, :tipo_lista => 3) %></h3>
+                <% end %>
+            </div>
+        </div>
+        <% if @tipo_lista.to_i == 2 %>
+
+            <div class="row">
+                <div class="row_second">
+                    <div class="row_inner">
+                        <div class="tile">
+                            <% @turnos.each do |turno|%>
+                                <%if turno.user_id == current_user.id and turno.estado == "ACTIVO"%>
+                                    <div align='center' style="display: flex; flex-flow: wrap; ">
+                                        <div class="column-turno">
+                                            <b>Conductor </b><p><%= turno.user.name%></p>
+                                            <b>Hora salida </b><p><%= turno.hora_salida%></p>
+                                            <b>Día de la semana </b><p><%= turno.dia_semana%></p>
+                                            <b>Dirección salida </b><p><%= turno.direccion_salida%></p>
+                                            <b>Dirección llegada </b><p><%= turno.direccion_llegada%></p>
+                                            <b></b><p><%= link_to 'Ver detalles', turnos_show_path(:id => turno.id) %></p>
+                                        </div>
+                                    </div>
+                                <% end %>
+                            <% end %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% elsif @tipo_lista.to_i == 1 %>
+            <div class="row">
+                <div class="row_second">
+                    <div class="row_inner">
+                        <div class="tile">
+                            <% @turnos.each do |turno|%>
+                                <%if turno.user_id == current_user.id and turno.estado == "CONFIRMADO"%>
+                                    <div align='center' style="display: flex; flex-flow: wrap; ">
+                                        <div class="column-turno">
+                                            <b>Conductor </b><p><%= turno.user.name%></p>
+                                            <b>Hora salida </b><p><%= turno.hora_salida%></p>
+                                            <b>Día de la semana </b><p><%= turno.dia_semana%></p>
+                                            <b>Dirección salida </b><p><%= turno.direccion_salida%></p>
+                                            <b>Dirección llegada </b><p><%= turno.direccion_llegada%></p>
+                                            <b></b><p><%= link_to 'Ver detalles', turnos_show_path(:id => turno.id) %></p>
+                                        </div>
+                                    </div>
+                                <% end %>
+                            <% end %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% elsif @tipo_lista.to_i == 3 %>    
+            <div class="row">
+                <div class="row_second">
+                    <div class="row_inner">
+                        <div class="tile">
+                            <% @turnos.each do |turno|%>
+                                <%if turno.user_id == current_user.id and turno.estado == "COMPLETADO"%>
+                                    <div align='center' style="display: flex; flex-flow: wrap; ">
+                                        <div class="column-turno">
+                                            <b>Conductor </b><p><%= turno.user.name%></p>
+                                            <b>Hora salida </b><p><%= turno.hora_salida%></p>
+                                            <b>Día de la semana </b><p><%= turno.dia_semana%></p>
+                                            <b>Dirección salida </b><p><%= turno.direccion_salida%></p>
+                                            <b>Dirección llegada </b><p><%= turno.direccion_llegada%></p>
+                                            <b></b><p><%= link_to 'Ver detalles', turnos_show_path(:id => turno.id) %></p>
+                                        </div>
+                                    </div>   
+                                <% end %>
+                            <% end %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% end %>
+    </div>
+<% end %>
+

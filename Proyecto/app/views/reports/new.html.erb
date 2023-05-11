@@ -1,0 +1,32 @@
+<div align='center'>
+    <h1 class="title is-3 has-text-primary">Reportar un usuario</h1>
+    <div class="column is-4 is-offset-4">
+        <%= form_for @report do |form| %>
+            <% if @report.errors.any? %>
+            <div class="contenedor-error">
+                Se produjeron los siguientes errores:
+                <% @report.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+                <% end %>
+                <br/>
+            </div>
+            <% end %>
+
+            <%= form.text_field :usuario, {class: "input is-primary is-rounded is-outlined", placeholder:"Agrega aquí el nombre del usuario a reportar"}%>
+            
+            <br/>
+            <br/>
+
+            <%= form.text_field :contenido, {class: "input is-primary is-rounded is-outlined", placeholder:"Agrega aquí la razon del reporte"}%>
+
+            <br/>
+            <br/>
+            <%= form.hidden_field :estado, value: 'En revisión' %>
+            <div>
+                <%= form.submit 'Enviar reporte', {class: "button is-primary is-inverted is-rounded is-outlined"} %>
+            </div>
+            <br/>
+            <%= link_to 'Salir', menu_path, {class: "button is-primary is-inverted is-rounded is-outlined"} %>
+        <% end %>
+    </div>
+</div>

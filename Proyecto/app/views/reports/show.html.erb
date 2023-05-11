@@ -1,0 +1,15 @@
+<div align='center'>
+    <h1 class="title is-3 has-text-primary">Reporte</h1>
+
+    <p>
+        <strong>Usuario reportado:</strong>
+        <%= @report.usuario %>
+    </p>
+    <p>
+        <strong>Estado reporte: </strong>
+        <%= @report.estado %>
+    </p>
+
+    <br/>
+    <%= link_to 'Volver', users_show_path(:id => current_user.id, :tipo_lista => 3), class: "button is-primary is-inverted is-rounded is-outlined" %>
+</div>

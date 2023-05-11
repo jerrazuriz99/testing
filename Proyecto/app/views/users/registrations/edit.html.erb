@@ -1,0 +1,151 @@
+<h2 class="title is-2 has-text-primary">Edit <%= resource_name.to_s.humanize %></h2>
+
+<div class="column is-4 is-offset-4">
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+    <%= render "users/shared/error_messages", resource: resource %>
+
+    <%if current_user.image.attached?%>
+      <img class="center" alt="Imagen de perfil" src="<%=Rails.env.production? ? current_user.image.url : url_for(current_user.image)%>"/>
+    <%else%>
+      <%= image_tag("default_user_image.png", class: "center")%>
+    <%end%>
+    <br/>
+    <div class="field">
+      <p class="control has-icons-left">
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "input is-primary is-rounded is-outlined", placeholder:"Mail", :required => true %>
+        <span class="icon is-small is-left">
+      <ion-icon name="mail"></ion-icon>
+    </span>
+      </p>
+    </div>
+
+    <br/>
+
+    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+    <% end %>
+
+    <div class="field">
+      <p class="control has-icons-left">
+        <%= f.password_field :password, autocomplete: "new-password", class: "input is-primary is-rounded is-outlined", placeholder:"Contraseña nueva" %>
+        <span class="icon is-small is-left">
+      <ion-icon name="lock-closed"></ion-icon>
+    </span>
+      </p>
+      <i align='center'>(Dejar en blanco si no la quiere cambiar)</i><br />
+    </div>
+
+    <div class="field">
+      <p class="control has-icons-left">
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "input is-primary is-rounded is-outlined", placeholder:"Repita contraseña nueva" %>
+        <span class="icon is-small is-left">
+      <ion-icon name="lock-closed"></ion-icon>
+    </span>
+      </p>
+    </div>
+
+    <br/>
+
+    <div class="field">
+      <p class="control has-icons-left">
+        <%= f.password_field :current_password, autocomplete: "current-password", class: "input is-primary is-rounded is-outlined", placeholder:"Contraseña actual" , :required => true %>
+        <span class="icon is-small is-left">
+      <ion-icon name="lock-open"></ion-icon>
+    </span>
+      </p>
+      <i align='center'>(Necesitamos tu contraseña actual para confirmar los cambios)</i><br />
+    </div>
+
+    <div class="field">
+      <p class="control has-icons-left">
+        <%= f.text_field :name, class: "input is-primary is-rounded is-outlined", placeholder:"Nombre"  %>
+        <span class="icon is-small is-left">
+      <ion-icon name="person"></ion-icon>
+    </span>
+      </p>
+    </div>
+
+    <br/>
+
+    <div class="field">
+      <p class="control has-icons-left">
+        <%= f.text_field :address, class: "input is-primary is-rounded is-outlined", placeholder:"Dirección"  %>
+        <span class="icon is-small is-left">
+      <ion-icon name="location"></ion-icon>
+    </span>
+      </p>
+    </div>
+
+    <br/>
+
+    <div class="field">
+      <p class="control has-icons-left">
+        <%= f.text_field :description, class: "input is-primary is-rounded is-outlined", placeholder:"Cuentanos un poco sobre tí" %>
+        <span class="icon is-small is-left">
+      <ion-icon name="newspaper"></ion-icon>
+    </span>
+      </p>
+    </div>
+
+    <% def options_for_status
+         [
+           ['Masculino','Masculino'],
+           ['Femenino','Femenino'],
+           ['No binario','No binario'],
+           ['Prefiero no decir','Prefiero no decir']
+         ]
+       end %>
+    <div class="field">
+      <%= f.select :gender, options_for_status, {:include_blank => "Select One"}, {class: "input is-primary is-rounded is-outlined", :required => true}%>
+    </div>
+    <br/>
+
+    <div class="field">
+      <p class="control has-icons-left ">
+        <%= f.text_field :phone, class: "input is-primary is-rounded is-outlined", placeholder:"Teléfono", pattern: /^(\+?56){0,1}(9|2)[1-9]\d{7}$/, title: "El numero ingresado no es valido, ingresar un numero con 9 digitos que comienza con 2 o 9"%>
+        <span class="icon is-small is-left">
+      <ion-icon name="call"></ion-icon>
+    </span>
+      </p>
+    </div>
+
+    <br/>
+
+    <div class="field">
+      <p class="control has-icons-left">
+        <%= f.text_field :reglas, class: "input is-primary is-rounded is-outlined", placeholder:"Agrega alguna regla para tu auto" %>
+        <span class="icon is-small is-left">
+      <ion-icon name="car-sport"></ion-icon>
+    </span>
+      </p>
+    </div>
+    <div class="field">
+      <label class="label">Cambiar imagen de perfil:</label>
+      <p class="control has-icons-left">
+        <%= f.file_field :image, class: "input is-primary is-rounded is-outlined", placeholder:"Imagen Perfil", accept: 'image/png,image/jpeg' %>
+        <span class="icon is-small is-left">
+      <ion-icon name="camera"></ion-icon>
+    </span>
+      </p>
+    </div>
+    <br/>
+    <br/>
+
+    <div class="actions" align='center'>
+      <%= f.submit "Update", :class => "button is-primary is-inverted is-rounded is-outlined" %>
+    </div>
+
+<% end %>
+
+<br/>
+
+<a align='center'>
+  <p>¿Insatisfech@? <%= button_to "Eliminar cuenta", registration_path(resource_name), data: { confirm: "¿Esta segur@?" }, method: :delete, :class => "button is-primary is-inverted is-rounded is-outlined" %></p>
+
+  <br/>
+
+  <div class="actions" align='center'>
+    <%= link_to "Volver", :back, :class => "button is-primary is-inverted is-rounded is-outlined is-centered" %>
+  </div>
+</a>
+</div>

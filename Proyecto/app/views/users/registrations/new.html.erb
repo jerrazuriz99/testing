@@ -1,0 +1,120 @@
+<h1 align='center' class = "title is-2 has-text-primary" >Registrarse</h1>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= render "users/shared/error_messages", resource: resource %>
+  <div class="column is-4 is-offset-4">
+    <div align='center'>
+    <div class="field">
+      <p class="control has-icons-left">
+      <%= f.email_field :email, class: "input is-primary is-rounded is-outlined", placeholder:"Email", autofocus: true, autocomplete: "email" , :required => true%>
+        <span class="icon is-small is-left">
+      <ion-icon name="mail"></ion-icon>
+    </span>
+      </p>
+    </div>
+
+      <br/>
+    <div class="field">
+      <p class="control has-icons-left">
+      <%= f.password_field :password, class: "input is-primary is-rounded is-outlined", placeholder:"Contraseña", autocomplete: "new-password" , :required => true%>
+        <span class="icon is-small is-left">
+      <ion-icon name="lock-closed"></ion-icon>
+    </span>
+      </p>
+    </div>
+
+    <br/>
+    <div class="field">
+      <p class="control has-icons-left">
+      <%= f.password_field :password_confirmation, class: "input is-primary is-rounded is-outlined", placeholder:"Repita su contraseña", autocomplete: "new-password" , :required => true%>
+        <span class="icon is-small is-left">
+      <ion-icon name="lock-closed"></ion-icon>
+    </span>
+      </p>
+    </div>
+
+    <br/>
+    <div class="field">
+      <p class="control has-icons-left">
+      <%= f.text_field :name, class: "input is-primary is-rounded is-outlined", placeholder:"Nombre" , :required => true%>
+        <span class="icon is-small is-left">
+      <ion-icon name="person"></ion-icon>
+    </span>
+      </p>
+    </div>
+
+    <br/>
+    <div class="field">
+      <p class="control has-icons-left">
+      <%= f.text_field :address, class: "input is-primary is-rounded is-outlined", placeholder:"Dirección" , :required => true%>
+        <span class="icon is-small is-left">
+      <ion-icon name="location"></ion-icon>
+    </span>
+      </p>
+    </div>
+
+    <br/>
+    <div class="field">
+      <p class="control has-icons-left">
+      <%= f.text_field :description, class: "input is-primary is-rounded is-outlined", placeholder:"Cuentanos un poco sobre tí" , :required => true%>
+        <span class="icon is-small is-left">
+      <ion-icon name="newspaper"></ion-icon>
+    </span>
+      </p>
+    </div>
+
+    <% def options_for_status
+      [
+      ['Masculino','Masculino'],
+      ['Femenino','Femenino'],
+      ['No binario','No binario'],
+      ['Prefiero no decir','Prefiero no decir']
+      ]
+    end %>
+    <div class="field">
+      <%= f.select :gender, options_for_status, {:include_blank => "Select One",:selected => nil}, {class: "input is-primary is-rounded is-outlined", :required => true} %>
+    </div>
+
+    <br/>
+    <div class="field">
+      <p class="control has-icons-left">
+      <%= f.text_field :phone, class: "input is-primary is-rounded is-outlined", placeholder:"Teléfono" , :required => true , pattern: /^(\+?56){0,1}(9|2)[1-9]\d{7}$/, title: "El numero ingresado no es valido, ingresar un numero con 9 digitos que comienza con 2 o 9" %>
+        <span class="icon is-small is-left">
+      <ion-icon name="call"></ion-icon>
+    </span>
+      </p>
+    </div>
+
+    <br/>
+    <details>
+      <summary class = "title is-5 has-text-black">¿Tienes auto o alguna regla que establecer?</summary>
+      <div class="field">
+        <p class="control has-icons-left">
+        <%= f.text_field :reglas, class: "input is-primary is-rounded is-outlined", placeholder:"Agrega alguna regla para tu auto" %>
+          <span class="icon is-small is-left">
+      <ion-icon name="car-sport"></ion-icon>
+    </span>
+        </p>
+      </div>
+    </details>
+      <br/>
+      <label class="label">Imagen de perfil:</label>
+      <div class="field">
+        <p class="control has-icons-left">
+          <%= f.file_field :image, class: "input is-primary is-rounded is-outlined", placeholder:"Imagen Perfil", accept: 'image/png,image/jpeg' %>
+          <span class="icon is-small is-left">
+      <ion-icon name="camera"></ion-icon>
+    </span>
+        </p>
+      </div>
+      <br/>
+
+      <div class="actions">
+        <%= f.submit "Registrarse", class: "button is-primary is-inverted is-rounded is-outlined" %>
+      </div>
+<% end %>
+<div align='center'>
+  <%= render "users/shared/links" %>
+</div>
+</div>
+</div>
